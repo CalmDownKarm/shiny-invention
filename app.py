@@ -35,7 +35,7 @@ def add_data():
   else:   
     foo['id'] = data[-1]['id']+1
   foo['ip'] = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
-  foo['data'] = request.json.get('data',)
+  foo['data'] = int(request.json.get('data',))
   foo['timestamp'] = datetime.now().isoformat()
   data.append(foo)
   return jsonify({'data': foo}), 201
