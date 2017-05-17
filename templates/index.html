@@ -1,0 +1,11 @@
+<html>
+  <head>
+    <title>Heart Rate Wearable</title>
+  </head>
+  <body>
+    <h1> Welcome </h1>
+    {% for row in data%}
+      <p>{{row.data}} TimeStamp : {{row.timestamp}}</p>
+    {% endfor %}
+  </body>
+</html>

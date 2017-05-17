@@ -1,11 +1,20 @@
-from flask import Flask,request,jsonify
+from flask import Flask,request,jsonify,render_template
 from datetime import datetime
 app = Flask(__name__)
 
 data = []
+@app.route('/raw')
+def raw():
+  return jsonify(data)
+
+def getdata():
+  global data
+  return data
+
 @app.route('/')
 def index():
-  return jsonify(data)
+  print(data)
+  return render_template('index.html',data=data)
 
 @app.route('/data/add',methods = ['POST'])
 def add_data():
