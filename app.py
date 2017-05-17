@@ -1,4 +1,5 @@
 from flask import Flask,request,jsonify
+from datetime import datetime
 app = Flask(__name__)
 
 data = []
@@ -15,6 +16,7 @@ def add_data():
     foo['id'] = data[-1]['id']+1
   foo['ip'] = request.remote_addr
   foo['data'] = request.json.get('data',)
+  foo['timestamp'] = datetime.now()
   data.append(foo)
   return jsonify({'data': foo}), 201
 
