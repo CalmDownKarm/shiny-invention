@@ -1,5 +1,6 @@
 from flask import Flask,request,jsonify,render_template
 import json
+from functools import reduce
 from datetime import datetime
 app = Flask(__name__)
 
@@ -25,6 +26,18 @@ def writeout():
   json.dump(data,open("DATABACKUP.json",'w'))
   return "WRITTEN"
 
+@app.route('/<int:age>')
+def indexbob(age):
+  max_heartrate = 220-age
+  sum = 0
+  sum = reduce((lambda x,y:x+y),[x['data'] for x in data[-5::]])
+  #sum = 20
+  sum/=5.0
+  if sum >= 0.5*max_heartrate and sum <=0.8*max_heartrate:
+    return "Exercising"  + repr(sum)
+  else:
+    return "at Rest" + repr(sum)
+
 @app.route('/data/readin',methods = ['GET'])
 def readin():
   global data
@@ -44,11 +57,6 @@ def add_data():
   data.append(foo)
   return jsonify({'data': foo}), 201
 
-@app.route('/data/chutiya',methods=['POST'])
-def take_data():
-  foo = int(request.json.get('data')[0])
-  bar = int(request.json.get('data')[1])
-  return jsonify({'pulse':foo-bar}),201
 
 if __name__ == '__main__':
   app.run(debug=True)
