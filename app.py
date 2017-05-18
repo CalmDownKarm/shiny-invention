@@ -40,5 +40,11 @@ def add_data():
   data.append(foo)
   return jsonify({'data': foo}), 201
 
+@app.route('/data/chutiya',methods=['POST'])
+def take_data():
+  foo = int(request.json.get('data')[0])
+  bar = int(request.json.get('data')[1])
+  return jsonify({'pulse':foo-bar}),201
+
 if __name__ == '__main__':
   app.run(debug=True)
