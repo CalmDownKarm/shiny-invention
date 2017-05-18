@@ -1,4 +1,5 @@
 <!doctype html>
+<meta http-equiv="refresh" content="10">
 <head>
     <title>Google Charts with Flask</title>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -25,14 +26,30 @@
                 ['{{ row.timestamp }}', {{ row.data }}],
                 {%- endfor %}
         ]);
+
+        var options = {
+          title: 'Heartbeat vs Time Graph',
+          curveType: 'function',
+          legend: { position: 'none' },
+          animation: {
+            duration: 2000,
+            easing: 'inAndOut',
+            startup: true
+
+          },
+          hAxis: { title: 'Heatbeat', minValue: 0, maxValue: 15 },
+          vAxis: { title: 'Time', minValue: 0, maxValue: 15 },
+          interpolateNulls: true,
+          lineWidth: 2
+        };
+
         // Instantiate and draw our chart, passing in some options.  All the
         // options go into a single {}; some options' values go into a nested
         // {}. Some values, such as colors, must be given as strings.  The
         // Google Charts API is well-documented.
-        var chart = new google.visualization.ColumnChart(
+        var chart = new google.visualization.ScatterChart(
                 document.getElementById('chart_div'));
-        chart.draw(foo, {legend: 'none', vAxis: {baseline: 0},
-                colors: ['#A0D100']});
+        chart.draw(foo, options);
       }
     </script>
 
@@ -55,7 +72,7 @@
 <body>
     <!-- Include more content here or below the chart, using Flask / Jinja. -->
     <div id="content">
-        <h1>Foobars frobnicated in the past 7 days</h1>
+        <h1>HeartRate vs Time</h1>
         <div id="chart_div"></div>
     </div>
 </body>
