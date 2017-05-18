@@ -12,10 +12,14 @@ def getdata():
   global data
   return data
 
+def stress_predict():
+  input = data[-1]['data']
+  return -3.92535141+0.05534093*input
+
 @app.route('/')
 def index():
   print(data)
-  return render_template('index.html',data=data)
+  return render_template('index.html',data=data,stressed = stress_predict())
 @app.route('/data/writeout',methods = ['GET'])
 def writeout():
   json.dump(data,open("DATABACKUP.json",'w'))
